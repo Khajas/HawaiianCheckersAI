@@ -1,17 +1,30 @@
-import java.util.ArrayList;
 import java.util.Scanner;
-
-
+/**Simulates a game of konane.  Gets user input for player types
+ * and the depths AI players should search to.  After receiving user
+ * input the game is simulated.  The game board is printed each time
+ * a player makes a move.  
+ * 
+ * For a board size of 8 the recommended maximum search depth for a
+ * minimax player is 5, and for the alpha-beta player the recommended 
+ * maximum depth is 7.
+ * 
+ * 
+ * @author Dan Wagar
+ *
+ */
 public class Main {
-	
-	private static Player player1,
-						  player2;
-	
+	 
 	public static void main(String args[]){
 		
 		Scanner sc = new Scanner(System.in);
-		System.out.format("Select a player type for player 1\n1 if player 1 is human,\n2 if player is AI" +
-							"with Minimax search\n3 if player 1 is AI with alpha-beta search");
+		System.out.println("***************************************");
+		System.out.println("    WELCOME TO THE GAME OF KONANE!     ");
+		System.out.println("***************************************");
+		
+		Player player1,
+		       player2;
+		System.out.format("Select a player type for player 1:\nEnter 1 if player 1 is human,\nEnter 2 if player is AI" +
+							"with Minimax search\nEnter 3 if player 1 is AI with alpha-beta search\n");
 		int player1Value = sc.nextInt();
 		if(player1Value == 1)
 			player1 = new Human('b');
@@ -21,7 +34,7 @@ public class Main {
 			player1 = new AIAlphaBeta('b');
 		
 		System.out.format("Select a player type for player 2\n1 if player 2 is human,\n2 if player 2 is AI" +
-				"with Minimax search\n3 if player 2 is AI with alpha-beta search");
+				"with Minimax search\n3 if player 2 is AI with alpha-beta search\n");
 		int player2Value = sc.nextInt();
 		if(player2Value == 1)
 			player2 = new Human('w');
@@ -30,11 +43,12 @@ public class Main {
 		else
 			player2 = new AIAlphaBeta('w');
 		
-		System.out.format("Select a board size");
-		int boardSize = sc.nextInt();
+		int boardSize = 8;
 		Board gameBoard = new Board(boardSize);
 		gameBoard.printBoard();
 		
+		//Run the simulation
+		//Get starting moves
 		if(player1.getPlayerType() == 1)
 			gameBoard.startGameHumanBlack();
 		else
@@ -44,14 +58,6 @@ public class Main {
 			gameBoard.startGameHumanWhite();
 		else
 			gameBoard.startGameAIWhite();
-		
-		//ArrayList<Board> availableMoves = gameBoard.getActions(player1.getPlayerColor());
-		//for(int i = 0; i < availableMoves.size(); i++){
-		//	availableMoves.get(i).printBoard();
-		//}
-		
-		
-		System.out.println("printing game board");
 		gameBoard.printBoard();
 		while(!gameBoard.getGameOver()){
 			player1.move(gameBoard);
@@ -61,10 +67,5 @@ public class Main {
 				gameBoard.printBoard();
 			}
 		}
-		
-		
-		
-		
 	}
-
 }
